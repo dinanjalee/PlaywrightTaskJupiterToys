@@ -23,7 +23,6 @@ export class ShopPage{
 
     async navigateToCart() {
         await this.tabCart.click();
-        //const noOfItemsAdded = this.page.locator('.cart-count.ng-binding').getByText;
     }
 
 }
