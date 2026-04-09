@@ -8,7 +8,7 @@ export class CartPage{
         this.page = page;
     }
 
-
+    //Verify total price and sub total of the added items in the cart
     async verifyCartTotalandSubTotal(products: ProductItem[]) {
         let calculatedTotal = 0;
 

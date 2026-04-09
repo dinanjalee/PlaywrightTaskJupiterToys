@@ -10,6 +10,7 @@ export class ShopPage{
        this.tabCart = page.locator('#nav-cart');
     }
 
+    // Adding items to cart by giving a list of items with quantity of the items
     async buyItems(products: ProductItem[]) {
         for (const item of products) {
         const productItem = this.page.locator('li', { hasText: item.name });
@@ -21,8 +22,7 @@ export class ShopPage{
         
     }
 
-    
-
+    // Navigating to the cart page after adding the items
     async navigateToCart() {
         await this.tabCart.click();
     }

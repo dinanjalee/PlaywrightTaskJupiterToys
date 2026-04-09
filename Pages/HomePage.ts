@@ -12,15 +12,18 @@ export class HomePage{
        this.tabShop = page.locator('//*[@id="nav-shop"]/a');
     }
 
+    // Accessing the web URL of Jupiter Toys
     async loadingWeb() {
         await this.page.goto('/');
         await expect(this.lblLogo).toBeVisible();
     }
 
+    // Navigate to the Contact page from Home Page
     async navigateToContact() {
         await this.tabContact.click();
     }
 
+    // Navigate to Shop page from Home page
     async navigateToShop() {
         await this.tabShop.click();
     }
