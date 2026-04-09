@@ -10,19 +10,6 @@ export class ShopPage{
        this.tabCart = page.locator('#nav-cart');
     }
 
-    async buyProductitems(productitems: Record<string, number>) {
-        for (const [itemName, quantity] of Object.entries(productitems)) {
-            const item = this.page.locator('li', { hasText: itemName });
-
-            for (let i = 0; i < quantity; i++) {
-                //await item.getByRole('button', { name: 'Buy' }).click();
-                const buyButton = item.getByText('Buy').first();
-                await buyButton.click();
-            }
-        }
-        
-    }
-
     async buyItems(products: ProductItem[]) {
         for (const item of products) {
         const productItem = this.page.locator('li', { hasText: item.name });
