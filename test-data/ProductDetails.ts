@@ -3,3 +3,4 @@ export const productitems = {
   'Fluffy Bunny': 5,
   'Valentine Bear': 3
 };
+

@@ -1,4 +1,5 @@
 import { Page, Locator, expect } from '@playwright/test';
+import { ProductItem } from '../test-data/Item';
 
 export class ShopPage{
     readonly page: Page;
@@ -19,7 +20,21 @@ export class ShopPage{
                 await buyButton.click();
             }
         }
+        
     }
+
+    async buyItems(products: ProductItem[]) {
+        for (const item of products) {
+        const productItem = this.page.locator('li', { hasText: item.name });
+        for (let i = 0; i < item.quantity; i++) {
+            const buyButton = productItem.getByText('Buy');
+                await buyButton.click();
+        }
+    }
+        
+    }
+
+    
 
     async navigateToCart() {
         await this.tabCart.click();

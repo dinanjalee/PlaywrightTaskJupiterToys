@@ -1,4 +1,5 @@
 import { Page, Locator, expect} from '@playwright/test';
+import { ProductItem } from '../test-data/Item';
 
 export class CartPage{
     readonly page: Page;
@@ -7,39 +8,36 @@ export class CartPage{
         this.page = page;
     }
 
-async verifyCart(products: Record<string, number>) {
-    let totalCalculated = 0;
 
-    for (const [itemName, noOfItemsAdded] of Object.entries(products)) {
-        const row = this.page.locator('tbody tr', { hasText: itemName });
+    async verifyCartTotalandSubTotal(products: ProductItem[]) {
+        let calculatedTotal = 0;
 
-        const priceText = await row.locator('td').nth(1).innerText();
-        const quantityText = await row.locator('input').inputValue();
-        const subtotalText = await row.locator('td').nth(3).innerText();
+        for (const item of products) {
+            const row = this.page.locator('tbody tr', { hasText: item.name });
 
-        const price = parseFloat(priceText.replace('$', ''));
-        const quantity = Number(quantityText);
-        const subtotal = parseFloat(subtotalText.replace('$', ''));
-        //console.log(quantity);
-        //console.log(subtotal);
+            const priceText = await row.locator('td').nth(1).innerText();
+            const quantityText = await row.locator('input').inputValue();
+            const subtotalText = await row.locator('td').nth(3).innerText();
 
-        // Verify the quantity matches
-        expect(quantity).toBe(noOfItemsAdded);
+            const price = parseFloat(priceText.replace('$', ''));
+            const quantity = Number(quantityText);
+            const subtotal = parseFloat(subtotalText.replace('$', ''));
 
-        // Verify subtotal
-        expect(subtotal).toBe(price * quantity);
+            // Verify the quantity matches
+            expect(quantity).toBe(item.quantity);
 
-        // Add to total
-        totalCalculated += subtotal;
+            // Verify subtotal
+            expect(subtotal).toBe(price * quantity);
+
+            // Add totalprice together
+            calculatedTotal += subtotal;
+        }
+
+            // Verify total
+            const totalDisplayedText = await this.page.locator('.total.ng-binding').innerText();
+            const totalDisplayed = parseFloat(totalDisplayedText.replace('Total: ', ''));
+            //console.log(totalDisplayed);
+            //console.log(calculatedTotal);
+            expect(totalDisplayed).toBe(calculatedTotal);
     }
-
-    // Verify total
-    const totalDisplayedText = await this.page.locator('.total.ng-binding').innerText();
-    const totalDisplayed = parseFloat(totalDisplayedText.replace('Total: ', ''));
-    //console.log(totalDisplayed);
-    //console.log(totalCalculated);
-    expect(totalDisplayed).toBe(totalCalculated);
-
-    }
-
 }
